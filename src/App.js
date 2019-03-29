@@ -11,12 +11,12 @@ class App extends Component {
     searchTerm: "",
     printType: "all",
     bookType: "no-filter",
-    searchUrl: ""
+    bookInfo: []
   };
 
-  handleSearchTerm(term) {
+  handleSearchTerm(searchTerm) {
     this.setState({
-      searchTerm: term
+      searchTerm
     });
   }
 
@@ -35,27 +35,32 @@ class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const searchTerm = this.state.searchTerm;
-    console.log(searchTerm);
     const printType = this.state.printType;
     const bookType = this.state.bookType;
     const searchUrl = `https://www.googleapis.com/books/v1/volumes?key=AIzaSyBQcuZvJiG3-pBqiOmP0mIxsZydLoiFGzE&q=${searchTerm}&printType=${printType}&bookType=${bookType}`;
 
-    this.setState({
-      searchUrl: searchUrl
+    fetch(searchUrl)
+    .then(response => response.json())
+    .then(data => {
+      const bookInfo = [];
+      data.items.forEach(item => {
+      console.log('whole item', item);
+        const bookObj = {
+        src: item.volumeInfo.imageLinks.smallThumbnail,
+        title: item.volumeInfo.title,
+        author: item.volumeInfo.authors,
+        description: item.volumeInfo.description,
+        price: item.saleInfo.listPrice ? item.saleInfo.listPrice.amount : 'Not For Sale',
+      }
+      bookInfo.push(bookObj); 
     })
-
-    console.log(typeof this.state.searchTerm)
-  }
-
-  // componentDidMount() {
-  //   const url = this.state.searchUrl;
-  //   console.log('url: ', url)
-  //   console.log('did mount, url in state is: ', this.state.searchUrl)
-  //   fetch(url)
-  //   .then(response => response.json())
-  //   .then(responseJ => console.log(responseJ))
-    
-  // }
+    this.setState({
+      bookInfo
+    })  
+    console.log(this.state); 
+  })
+  
+}
 
   render() {
     return (
@@ -73,7 +78,7 @@ class App extends Component {
           printType={this.state.printType}
           bookType={this.state.bookType}
         />
-        <BooksList />
+        <BooksList bookInfo={this.state.bookInfo}/>
       </div>
     );
   }

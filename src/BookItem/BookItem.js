@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import './BookItem.css';
+
 
 export default class BookItem extends Component {
     render() {
         return (
-            <li>
-                <img src="http://placekitten.com/200/300" />
-                <h2>Book Title</h2>
-                <p>Author</p>
-                <p>Price: $1M</p>
-                <p>Description: Boring as shit</p>
+            <li className="book-item">
+                <div>
+                    <img src={this.props.src} />
+                </div>
+                <div>
+                    <h2>{this.props.title}</h2>
+                    <p>{this.props.author}</p>
+                    <p>{this.props.price}</p>
+                    <p>{this.props.description}</p>
+                </div>
             </li>
         )
     }
