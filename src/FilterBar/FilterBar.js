@@ -13,14 +13,16 @@ export default class FilterBar extends Component {
                     </select>
                 </label>
                 <label htmlFor="book-type">Book type
-                    <select value={this.props.bookType} id="book-type" onChange={this.props.handleBookTypeChange}>
-                        <option value="no-filter">No Filter</option>
-                        <option value="ebook">Ebook</option>
-                        <option value="free-ebook">Free Ebook</option>
-                        <option value="preview-available">Preview Available</option>    
+                    <select value={this.props.filter} id="book-type" onChange={this.props.handleBookTypeChange}>
+                        <option value="ebooks">No Filter</option>
+                        <option value="paid-ebooks">Paid Ebooks</option>
+                        <option value="free-ebooks">Free Ebooks</option>
+                        <option value="partial">Preview Available</option>    
                     </select>
                 </label>
             </form>
         )
     }
 }
+
+
