@@ -10,7 +10,7 @@ class App extends Component {
   state = {
     searchTerm: "",
     printType: "all",
-    bookType: "no-filter",
+    filter: "ebooks",
     bookInfo: []
   };
 
@@ -26,9 +26,9 @@ class App extends Component {
     });
   }
 
-  handleBookTypeChange(bookType) {
+  handleBookTypeChange(filter) {
     this.setState({
-      bookType
+      filter
     });
   }
 
@@ -36,9 +36,9 @@ class App extends Component {
     event.preventDefault();
     const searchTerm = this.state.searchTerm;
     const printType = this.state.printType;
-    const bookType = this.state.bookType;
-    const searchUrl = `https://www.googleapis.com/books/v1/volumes?key=AIzaSyBQcuZvJiG3-pBqiOmP0mIxsZydLoiFGzE&q=${searchTerm}&printType=${printType}&bookType=${bookType}`;
-
+    const filter = this.state.filter;
+    const searchUrl = `https://www.googleapis.com/books/v1/volumes?key=AIzaSyBQcuZvJiG3-pBqiOmP0mIxsZydLoiFGzE&q=${searchTerm}&printType=${printType}&filter=${filter}`;
+    console.log('searchUrl', searchUrl);
     fetch(searchUrl)
     .then(response => response.json())
     .then(data => {
@@ -76,7 +76,7 @@ class App extends Component {
           }
           handleBookTypeChange={e => this.handleBookTypeChange(e.target.value)}
           printType={this.state.printType}
-          bookType={this.state.bookType}
+          filter={this.state.filter}
         />
         <BooksList bookInfo={this.state.bookInfo}/>
       </div>
